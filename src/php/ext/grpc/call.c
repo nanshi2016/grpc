@@ -22,6 +22,7 @@
 #include <zend_exceptions.h>
 
 #include <grpc/support/alloc.h>
+#include <grpc/support/log.h>
 
 #include "call_credentials.h"
 #include "completion_queue.h"
@@ -480,6 +481,7 @@ PHP_METHOD(Call, startBatch) {
 #if PHP_MAJOR_VERSION >= 7
   zval *recv_md;
 #endif
+  struct timeval tvx, tvy, tvz;
   for (int i = 0; i < op_num; i++) {
     switch(ops[i].op) {
     case GRPC_OP_SEND_INITIAL_METADATA:
@@ -507,12 +509,13 @@ PHP_METHOD(Call, startBatch) {
       PHP_GRPC_DELREF(array);
       break;
     case GRPC_OP_RECV_MESSAGE:
+    gettimeofday(&tvx,NULL);
 #if PHP_MAJOR_VERSION < 7
       byte_buffer_to_string(message, &message_str, &message_len);
 #else
       zmessage = byte_buffer_to_zend_string(message);
 #endif // PHP_MAJOR_VERSION < 7
-
+      gettimeofday(&tvy,NULL);
 #if PHP_MAJOR_VERSION < 7
       if (message_str == NULL) {
 #else
@@ -530,6 +533,11 @@ PHP_METHOD(Call, startBatch) {
         zval_ptr_dtor(&zmessage_val);
 #endif // PHP_MAJOR_VERSION < 7
       }
+      gettimeofday(&tvz,NULL);
+      timersub(&tvy, &tvx, &tvx);
+      tvx.tv_usec += tvx.tv_sec * 1000000l;
+      timersub(&tvz, &tvy, &tvy);
+      tvy.tv_usec += tvy.tv_sec * 1000000l;
       break;
     case GRPC_OP_RECV_STATUS_ON_CLIENT:
       PHP_GRPC_MAKE_STD_ZVAL(recv_status);
