@@ -21,6 +21,17 @@ option objc_class_prefix = "HLW";
 
 package helloworld;
 
+enum EnumA {
+  unknown = 0;
+  fast = 1;
+  medium = 2;
+  slow = 3;
+}
+
+message NestedMessage {
+  repeated string messages = 1;
+}
+
 // The greeting service definition.
 service Greeter {
   // Sends a greeting
@@ -30,9 +41,11 @@ service Greeter {
 // The request message containing the user's name.
 message HelloRequest {
   string name = 1;
+  repeated NestedMessage nestedMessages = 2;
 }
 
 // The response message containing the greetings
 message HelloReply {
   string message = 1;
+  repeated NestedMessage nestedMessages = 100;
 }

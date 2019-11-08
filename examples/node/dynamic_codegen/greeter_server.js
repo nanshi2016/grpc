@@ -42,7 +42,11 @@ function sayHello(call, callback) {
  * sample server port
  */
 function main() {
-  var server = new grpc.Server();
+  //var server = new grpc.Server();
+  var server = new grpc.Server({
+    'grpc.max_send_message_length': 8*1024*1024,
+    'grpc.max_receive_message_length': 8*1024*1024,
+  });
   server.addService(hello_proto.Greeter.service, {sayHello: sayHello});
   server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure());
   server.start();

@@ -256,6 +256,10 @@ PHP_METHOD(Call, __construct) {
  * @return object Object with results of all actions
  */
 PHP_METHOD(Call, startBatch) {
+  // for test
+  struct timeval tvs[8] = {0};
+  gettimeofday(&tvs[0],NULL);
+
   zval *result;
   PHP_GRPC_MAKE_STD_ZVAL(result);
   object_init(result);
@@ -308,6 +312,9 @@ PHP_METHOD(Call, startBatch) {
   grpc_metadata_array_init(&recv_trailing_metadata);
   memset(ops, 0, sizeof(ops));
   
+  // for test
+  gettimeofday(&tvs[1],NULL);
+
   /* "a" == 1 array */
   if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "a", &array) ==
       FAILURE) {
@@ -317,6 +324,9 @@ PHP_METHOD(Call, startBatch) {
   }
 
   array_hash = Z_ARRVAL_P(array);
+
+  // for test
+  gettimeofday(&tvs[2],NULL);
 
   char *key = NULL;
   int key_type;
@@ -448,6 +458,9 @@ PHP_METHOD(Call, startBatch) {
     op_num++;
   PHP_GRPC_HASH_FOREACH_END()
 
+  // for test
+  gettimeofday(&tvs[3],NULL);
+
   error = grpc_call_start_batch(call->wrapped, ops, op_num, call->wrapped,
                                 NULL);
   if (error != GRPC_CALL_OK) {
@@ -456,8 +469,14 @@ PHP_METHOD(Call, startBatch) {
                          (long)error TSRMLS_CC);
     goto cleanup;
   }
+  // for test
+  gettimeofday(&tvs[4],NULL);
+
   grpc_completion_queue_pluck(completion_queue, call->wrapped,
                               gpr_inf_future(GPR_CLOCK_REALTIME), NULL);
+  // for test
+  gettimeofday(&tvs[5],NULL);
+
 #if PHP_MAJOR_VERSION >= 7
   zval *recv_md;
 #endif
@@ -544,6 +563,8 @@ PHP_METHOD(Call, startBatch) {
       break;
     }
   }
+  // for test
+  gettimeofday(&tvs[6],NULL);
 
 cleanup:
   grpc_php_metadata_array_destroy_including_entries(&metadata);
@@ -563,6 +584,17 @@ cleanup:
       #endif // PHP_MAJOR_VERSION < 7
     }
   }
+  // for test
+  gettimeofday(&tvs[7],NULL);
+  for (int i = 0; i < 7; ++i) {
+    timersub(&tvs[i+1], &tvs[i], &tvs[i]);
+    tvs[i].tv_usec += tvs[i].tv_sec * 1000000l;
+  }
+
+  gpr_log(GPR_ERROR, "==== startBatch runTime: %8ld %8ld %8ld %8ld %8ld %8ld %8ld",
+    tvs[0].tv_usec, tvs[1].tv_usec, tvs[2].tv_usec, tvs[3].tv_usec,
+    tvs[4].tv_usec, tvs[5].tv_usec, tvs[6].tv_usec);
+
   RETURN_DESTROY_ZVAL(result);
 }
 
