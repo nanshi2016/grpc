@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM debian:stretch
+FROM debian:buster
 
 RUN apt-get -qq update && apt-get -qq install -y \
   autoconf build-essential git libtool \
