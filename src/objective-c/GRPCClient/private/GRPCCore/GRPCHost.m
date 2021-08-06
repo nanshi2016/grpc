@@ -57,7 +57,7 @@ static NSMutableDictionary *gHostCache;
   // gRPC library.
   // TODO(jcanizales): Add unit tests for the types of addresses we want to let pass untouched.
   if (![address hasPrefix:@"dns:"] && ![address hasPrefix:@"unix:"] &&
-    ![address hasPrefix:@"ipv4:"] && ![address hasPrefix:@"ipv6:"]) {
+      ![address hasPrefix:@"ipv4:"] && ![address hasPrefix:@"ipv6:"]) {
     NSURL *hostURL = [NSURL URLWithString:[@"https://" stringByAppendingString:address]];
     if (hostURL.host && hostURL.port == nil) {
       address = [hostURL.host stringByAppendingString:@":443"];
