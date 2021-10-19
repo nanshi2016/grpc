@@ -38,10 +38,8 @@
   grpc_init();
   testing::InitGoogleTest();
 
-  SetEventEngineFactory([]() {
-    return absl::make_unique<
-        grpc_event_engine::experimental::LibuvEventEngine>();
-  });
+  SetEventEngineFactory(
+      []() { return absl::make_unique<grpc_event_engine::experimental::LibuvEventEngine>(); });
 }
 
 + (void)tearDown {
@@ -55,8 +53,8 @@
 }
 
 - (void)testAll {
- auto gtest_result = RUN_ALL_TESTS();
- XCTAssertEqual(gtest_result, 0);
+  auto gtest_result = RUN_ALL_TESTS();
+  XCTAssertEqual(gtest_result, 0);
 }
 
 @end
