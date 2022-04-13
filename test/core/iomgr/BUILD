@@ -370,8 +370,8 @@ objc_library(
     testonly = True,
     srcs = glob(["ios/**/*.mm"]),
     deps = [
-        "//:iomgr_port",
         "//:gpr_platform",
+        "//:iomgr_port",
         "//test/core/util:grpc_test_util",
     ],
 )
