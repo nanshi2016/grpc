@@ -104,9 +104,9 @@ static GRPCProtoMethod *kFullDuplexCallMethod;
 @implementation GRPCClientTests
 
 + (void)setUp {
-  NSDictionary* environment = [[NSProcessInfo processInfo] environment];
-  kHostAddress = environment[@"HOST_PORT_LOCAL"]?: kHostAddress;
-  kRemoteSSLHost = environment[@"HOST_PORT_REMOTE"]?: kRemoteSSLHost;
+  NSDictionary *environment = [[NSProcessInfo processInfo] environment];
+  kHostAddress = environment[@"HOST_PORT_LOCAL"] ?: kHostAddress;
+  kRemoteSSLHost = environment[@"HOST_PORT_REMOTE"] ?: kRemoteSSLHost;
   NSLog(@"GRPCClientTests Started");
 }
 
