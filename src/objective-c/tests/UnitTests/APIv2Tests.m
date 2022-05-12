@@ -138,9 +138,9 @@ static const NSTimeInterval kInvertedTimeout = 2;
 @implementation CallAPIv2Tests
 
 + (void)setUp {
-  NSDictionary* environment = [[NSProcessInfo processInfo] environment];
-  kHostAddress = environment[@"HOST_PORT_LOCAL"]?: kHostAddress;
-  kRemoteSSLHost = environment[@"HOST_PORT_REMOTE"]?: kRemoteSSLHost;
+  NSDictionary *environment = [[NSProcessInfo processInfo] environment];
+  kHostAddress = environment[@"HOST_PORT_LOCAL"] ?: kHostAddress;
+  kRemoteSSLHost = environment[@"HOST_PORT_REMOTE"] ?: kRemoteSSLHost;
 }
 
 - (void)setUp {

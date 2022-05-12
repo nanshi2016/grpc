@@ -37,7 +37,7 @@ ios_test_runner(
     test_environment = {
         "HOST_PORT_LOCAL": "${HOST_PORT_LOCAL}",
         "HOST_PORT_LOCALSSL": "${HOST_PORT_LOCALSSL}",
-    }
+    },
 )
 
 proto_library_objc_wrapper(
@@ -199,6 +199,7 @@ grpc_objc_testing_library(
 ios_unit_test(
     name = "UnitTests",
     minimum_os_version = "9.0",
+    runner = ":ios_test_runner_with_env",
     test_host = ":ios-host",
     deps = [
         ":APIv2Tests-lib",
@@ -209,7 +210,6 @@ ios_unit_test(
         ":NSErrorUnitTests-lib",
         ":RxLibraryUnitTests-lib",
     ],
-    runner = ":ios_test_runner_with_env",
 )
 
 ios_unit_test(

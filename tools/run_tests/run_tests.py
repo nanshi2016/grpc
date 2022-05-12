@@ -1067,11 +1067,12 @@ class ObjCLanguage(object):
                 environ=_FORCE_ENVIRON_FOR_WRAPPERS))
         # TODO: replace with run_one_test_bazel.sh when Bazel-Xcode is stable
         out.append(
-            self.config.job_spec(['src/objective-c/tests/run_one_test_bazel.sh'],
-                                 timeout_seconds=60 * 60,
-                                 shortname='ios-test-unittests',
-                                 cpu_cost=1e6,
-                                 environ={'SCHEME': 'UnitTests'}))
+            self.config.job_spec(
+                ['src/objective-c/tests/run_one_test_bazel.sh'],
+                timeout_seconds=60 * 60,
+                shortname='ios-test-unittests',
+                cpu_cost=1e6,
+                environ={'SCHEME': 'UnitTests'}))
         out.append(
             self.config.job_spec(['src/objective-c/tests/run_one_test.sh'],
                                  timeout_seconds=60 * 60,
