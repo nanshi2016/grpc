@@ -185,6 +185,10 @@ grpc_objc_testing_library(
 
 ios_unit_test(
     name = "UnitTests",
+    env = {
+        "HOST_PORT_LOCAL": "${HOST_PORT_LOCAL}",
+        "HOST_PORT_LOCALSSL": "${HOST_PORT_LOCALSSL}",
+    },
     minimum_os_version = "9.0",
     test_host = ":ios-host",
     deps = [
@@ -196,10 +200,6 @@ ios_unit_test(
         ":NSErrorUnitTests-lib",
         ":RxLibraryUnitTests-lib",
     ],
-    env = {
-        "HOST_PORT_LOCAL": "${HOST_PORT_LOCAL}",
-        "HOST_PORT_LOCALSSL": "${HOST_PORT_LOCALSSL}",
-    },
 )
 
 ios_unit_test(
