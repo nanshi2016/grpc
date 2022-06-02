@@ -163,7 +163,7 @@ class BitSet {
                           Int>::type
   ToInt() const {
     Int result = 0;
-    for (size_t i = 0; i < kTotalBits; i++) {
+    for (int i = 0; i < kTotalBits; i++) {
       if (is_set(i)) result |= (Int(1) << i);
     }
     return result;
