@@ -143,9 +143,9 @@ class Channel : public RefCounted<Channel>,
   bool is_client() const { return is_client_; }
   RegisteredCall* RegisterCall(const char* method, const char* host);
 
-  int TestOnlyRegisteredCalls() {
+  size_t TestOnlyRegisteredCalls() {
     MutexLock lock(&registration_table_.mu);
-    return static_cast<int>(registration_table_.map.size());
+    return registration_table_.map.size();
   }
 
   int TestOnlyRegistrationAttempts() {
