@@ -115,7 +115,7 @@ CompressionAlgorithmSet::CompressionAlgorithmForLevel(
 
 CompressionAlgorithmSet CompressionAlgorithmSet::FromUint32(uint32_t value) {
   CompressionAlgorithmSet set;
-  for (size_t i = 0; i < GRPC_COMPRESS_ALGORITHMS_COUNT; i++) {
+  for (int i = 0; i < GRPC_COMPRESS_ALGORITHMS_COUNT; i++) {
     if (value & (1u << i)) {
       set.set_.set(i);
     }
@@ -150,7 +150,7 @@ CompressionAlgorithmSet::CompressionAlgorithmSet(
 
 bool CompressionAlgorithmSet::IsSet(
     grpc_compression_algorithm algorithm) const {
-  size_t i = static_cast<size_t>(algorithm);
+  int i = algorithm;
   if (i < GRPC_COMPRESS_ALGORITHMS_COUNT) {
     return set_.is_set(i);
   } else {
@@ -159,7 +159,7 @@ bool CompressionAlgorithmSet::IsSet(
 }
 
 void CompressionAlgorithmSet::Set(grpc_compression_algorithm algorithm) {
-  size_t i = static_cast<size_t>(algorithm);
+  int i = algorithm;
   if (i < GRPC_COMPRESS_ALGORITHMS_COUNT) {
     set_.set(i);
   }
