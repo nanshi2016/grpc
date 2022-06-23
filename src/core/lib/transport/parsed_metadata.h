@@ -193,7 +193,8 @@ class ParsedMetadata {
     result.vtable_ = vtable_;
     result.value_ = value_;
     result.transport_size_ =
-        TransportSize(static_cast<uint32_t>(key().length()), static_cast<uint32_t>(value.length()));
+        TransportSize(static_cast<uint32_t>(key().length()),
+                      static_cast<uint32_t>(value.length()));
     vtable_->with_new_value(&value, on_error, &result);
     return result;
   }
