@@ -173,7 +173,7 @@ const grpc_channel_filter grpc_lame_filter = {
 grpc_channel* grpc_lame_client_channel_create(const char* target,
                                               grpc_status_code error_code,
                                               const char* error_message) {
-  grpc_core::ExecCtx exec_ctx;
+  ExecCtx exec_ctx;
   GRPC_API_TRACE(
       "grpc_lame_client_channel_create(target=%s, error_code=%d, "
       "error_message=%s)",
@@ -186,7 +186,7 @@ grpc_channel* grpc_lame_client_channel_create(const char* target,
   grpc_arg error_arg = grpc_core::MakeLameClientErrorArg(&error);
   grpc_channel_args* args0 =
       grpc_channel_args_copy_and_add(nullptr, &error_arg, 1);
-  const grpc_channel_args* args = grpc_core::CoreConfiguration::Get()
+  const grpc_channel_args* args = CoreConfiguration::Get()
                                       .channel_args_preconditioning()
                                       .PreconditionChannelArgs(args0);
   grpc_channel_args_destroy(args0);

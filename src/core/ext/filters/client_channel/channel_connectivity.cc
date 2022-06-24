@@ -37,8 +37,8 @@ bool IsLameChannel(grpc_channel* channel) {
 
 grpc_connectivity_state grpc_channel_check_connectivity_state(
     grpc_channel* channel, int try_to_connect) {
-  grpc_core::ApplicationCallbackExecCtx callback_exec_ctx;
-  grpc_core::ExecCtx exec_ctx;
+  ApplicationCallbackExecCtx callback_exec_ctx;
+  ExecCtx exec_ctx;
   GRPC_API_TRACE(
       "grpc_channel_check_connectivity_state(channel=%p, try_to_connect=%d)", 2,
       (channel, try_to_connect));
@@ -205,8 +205,8 @@ class StateWatcher : public DualRefCounted<StateWatcher> {
 void grpc_channel_watch_connectivity_state(
     grpc_channel* channel, grpc_connectivity_state last_observed_state,
     gpr_timespec deadline, grpc_completion_queue* cq, void* tag) {
-  grpc_core::ApplicationCallbackExecCtx callback_exec_ctx;
-  grpc_core::ExecCtx exec_ctx;
+  ApplicationCallbackExecCtx callback_exec_ctx;
+  ExecCtx exec_ctx;
   GRPC_API_TRACE(
       "grpc_channel_watch_connectivity_state("
       "channel=%p, last_observed_state=%d, "

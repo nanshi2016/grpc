@@ -223,7 +223,7 @@ class Server : public InternallyRefCounted<Server>,
     // The index into Server::cqs_ of the CQ used as a starting point for
     // where to publish new incoming calls.
     size_t cq_idx_;
-    absl::optional<std::list<ChannelData*>::iterator> list_position_;
+    ::absl::optional<std::list<ChannelData*>::iterator> list_position_;
     // A hash-table of the methods and hosts of the registered methods.
     // TODO(vjpai): Convert this to an STL map type as opposed to a direct
     // bucket implementation. (Consider performance impact, hash function to
@@ -293,8 +293,8 @@ class Server : public InternallyRefCounted<Server>,
 
     std::atomic<CallState> state_{CallState::NOT_STARTED};
 
-    absl::optional<Slice> path_;
-    absl::optional<Slice> host_;
+    ::absl::optional<Slice> path_;
+    ::absl::optional<Slice> host_;
     grpc_millis deadline_ = GRPC_MILLIS_INF_FUTURE;
 
     grpc_completion_queue* cq_new_ = nullptr;
@@ -396,7 +396,7 @@ class Server : public InternallyRefCounted<Server>,
       MaybeFinishShutdown();
       return nullptr;
     }
-    requests_complete_ = absl::make_unique<absl::Notification>();
+    requests_complete_ = ::absl::make_unique<absl::Notification>();
     return requests_complete_.get();
   }
 
@@ -468,7 +468,7 @@ struct grpc_server_config_fetcher {
       : public grpc_core::DualRefCounted<ConnectionManager> {
    public:
     // Ownership of \a args is transfered.
-    virtual absl::StatusOr<grpc_channel_args*> UpdateChannelArgsForConnection(
+    virtual ::absl::StatusOr<grpc_channel_args*> UpdateChannelArgsForConnection(
         grpc_channel_args* args, grpc_endpoint* tcp) = 0;
   };
 
@@ -479,7 +479,7 @@ struct grpc_server_config_fetcher {
     // config is available. Implementations should update the connection manager
     // and start serving if not already serving.
     virtual void UpdateConnectionManager(
-        grpc_core::RefCountedPtr<ConnectionManager> manager) = 0;
+        RefCountedPtr<ConnectionManager> manager) = 0;
     // Implementations should stop serving when this is called. Serving should
     // only resume when UpdateConfig() is invoked.
     virtual void StopServing() = 0;

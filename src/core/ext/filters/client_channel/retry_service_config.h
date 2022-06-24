@@ -47,7 +47,7 @@ class RetryMethodConfig : public ServiceConfigParser::ParsedConfig {
  public:
   RetryMethodConfig(int max_attempts, grpc_millis initial_backoff,
                     grpc_millis max_backoff, float backoff_multiplier,
-                    StatusCodeSet retryable_status_codes,
+                    ::grpc_core::internal::StatusCodeSet retryable_status_codes,
                     absl::optional<grpc_millis> per_attempt_recv_timeout)
       : max_attempts_(max_attempts),
         initial_backoff_(initial_backoff),
@@ -60,7 +60,7 @@ class RetryMethodConfig : public ServiceConfigParser::ParsedConfig {
   grpc_millis initial_backoff() const { return initial_backoff_; }
   grpc_millis max_backoff() const { return max_backoff_; }
   float backoff_multiplier() const { return backoff_multiplier_; }
-  StatusCodeSet retryable_status_codes() const {
+  ::grpc_core::internal::StatusCodeSet retryable_status_codes() const {
     return retryable_status_codes_;
   }
   absl::optional<grpc_millis> per_attempt_recv_timeout() const {
@@ -72,7 +72,7 @@ class RetryMethodConfig : public ServiceConfigParser::ParsedConfig {
   grpc_millis initial_backoff_ = 0;
   grpc_millis max_backoff_ = 0;
   float backoff_multiplier_ = 0;
-  StatusCodeSet retryable_status_codes_;
+  ::grpc_core::internal::StatusCodeSet retryable_status_codes_;
   absl::optional<grpc_millis> per_attempt_recv_timeout_;
 };
 

@@ -43,11 +43,11 @@ class ChannelzRegistry {
   // To be called in grpc_shutdown();
   static void Shutdown();
 
-  static void Register(BaseNode* node) {
+  static void Register(::grpc_core::channelz::BaseNode* node) {
     return Default()->InternalRegister(node);
   }
   static void Unregister(intptr_t uuid) { Default()->InternalUnregister(uuid); }
-  static RefCountedPtr<BaseNode> Get(intptr_t uuid) {
+  static RefCountedPtr<::grpc_core::channelz::BaseNode> Get(intptr_t uuid) {
     return Default()->InternalGet(uuid);
   }
 
@@ -72,7 +72,7 @@ class ChannelzRegistry {
   static ChannelzRegistry* Default();
 
   // globally registers an Entry. Returns its unique uuid
-  void InternalRegister(BaseNode* node);
+  void InternalRegister(::grpc_core::channelz::BaseNode* node);
 
   // globally unregisters the object that is associated to uuid. Also does
   // sanity check that an object doesn't try to unregister the wrong type.
@@ -80,7 +80,7 @@ class ChannelzRegistry {
 
   // if object with uuid has previously been registered as the correct type,
   // returns the void* associated with that uuid. Else returns nullptr.
-  RefCountedPtr<BaseNode> InternalGet(intptr_t uuid);
+  RefCountedPtr<::grpc_core::channelz::BaseNode> InternalGet(intptr_t uuid);
 
   std::string InternalGetTopChannels(intptr_t start_channel_id);
   std::string InternalGetServers(intptr_t start_server_id);

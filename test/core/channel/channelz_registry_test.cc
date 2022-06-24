@@ -44,17 +44,21 @@ namespace testing {
 class ChannelzRegistryTest : public ::testing::Test {
  protected:
   // ensure we always have a fresh registry for tests.
-  void SetUp() override { ChannelzRegistry::Init(); }
+  void SetUp() override { ::grpc_core::channelz::ChannelzRegistry::Init(); }
 
-  void TearDown() override { ChannelzRegistry::Shutdown(); }
+  void TearDown() override {
+    ::grpc_core::channelz::ChannelzRegistry::Shutdown();
+  }
 };
 
-static RefCountedPtr<BaseNode> CreateTestNode() {
-  return MakeRefCounted<ListenSocketNode>("test", "test");
+static RefCountedPtr<::grpc_core::channelz::BaseNode> CreateTestNode() {
+  return MakeRefCounted<::grpc_core::channelz::ListenSocketNode>("test",
+                                                                 "test");
 }
 
 TEST_F(ChannelzRegistryTest, UuidStartsAboveZeroTest) {
-  RefCountedPtr<BaseNode> channelz_channel = CreateTestNode();
+  RefCountedPtr<::grpc_core::channelz::BaseNode> channelz_channel =
+      CreateTestNode();
   intptr_t uuid = channelz_channel->uuid();
   EXPECT_GT(uuid, 0) << "First uuid chose must be greater than zero. Zero if "
                         "reserved according to "
@@ -75,9 +79,10 @@ TEST_F(ChannelzRegistryTest, UuidsAreIncreasing) {
 }
 
 TEST_F(ChannelzRegistryTest, RegisterGetTest) {
-  RefCountedPtr<BaseNode> channelz_channel = CreateTestNode();
-  RefCountedPtr<BaseNode> retrieved =
-      ChannelzRegistry::Get(channelz_channel->uuid());
+  RefCountedPtr<::grpc_core::channelz::BaseNode> channelz_channel =
+      CreateTestNode();
+  RefCountedPtr<::grpc_core::channelz::BaseNode> retrieved =
+      ::grpc_core::channelz::ChannelzRegistry::Get(channelz_channel->uuid());
   EXPECT_EQ(channelz_channel, retrieved);
 }
 
@@ -85,20 +90,23 @@ TEST_F(ChannelzRegistryTest, RegisterManyItems) {
   std::vector<RefCountedPtr<BaseNode>> channelz_channels;
   for (int i = 0; i < 100; i++) {
     channelz_channels.push_back(CreateTestNode());
-    RefCountedPtr<BaseNode> retrieved =
-        ChannelzRegistry::Get(channelz_channels[i]->uuid());
+    RefCountedPtr<::grpc_core::channelz::BaseNode> retrieved =
+        ::grpc_core::channelz::ChannelzRegistry::Get(
+            channelz_channels[i]->uuid());
     EXPECT_EQ(channelz_channels[i], retrieved);
   }
 }
 
 TEST_F(ChannelzRegistryTest, NullIfNotPresentTest) {
-  RefCountedPtr<BaseNode> channelz_channel = CreateTestNode();
+  RefCountedPtr<::grpc_core::channelz::BaseNode> channelz_channel =
+      CreateTestNode();
   // try to pull out a uuid that does not exist.
-  RefCountedPtr<BaseNode> nonexistant =
-      ChannelzRegistry::Get(channelz_channel->uuid() + 1);
+  RefCountedPtr<::grpc_core::channelz::BaseNode> nonexistant =
+      ::grpc_core::channelz::ChannelzRegistry::Get(channelz_channel->uuid() +
+                                                   1);
   EXPECT_EQ(nonexistant, nullptr);
-  RefCountedPtr<BaseNode> retrieved =
-      ChannelzRegistry::Get(channelz_channel->uuid());
+  RefCountedPtr<::grpc_core::channelz::BaseNode> retrieved =
+      ::grpc_core::channelz::ChannelzRegistry::Get(channelz_channel->uuid());
   EXPECT_EQ(channelz_channel, retrieved);
 }
 

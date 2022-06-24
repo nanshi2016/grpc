@@ -31,9 +31,9 @@
 
 #define GRPC_DNS_ARES_DEFAULT_QUERY_TIMEOUT_MS 120000
 
-extern grpc_core::TraceFlag grpc_trace_cares_address_sorting;
+extern TraceFlag grpc_trace_cares_address_sorting;
 
-extern grpc_core::TraceFlag grpc_trace_cares_resolver;
+extern TraceFlag grpc_trace_cares_resolver;
 
 #define GRPC_CARES_TRACE_LOG(format, ...)                           \
   do {                                                              \
@@ -47,7 +47,7 @@ typedef struct grpc_ares_ev_driver grpc_ares_ev_driver;
 struct grpc_ares_request {
   /** synchronizes access to this request, and also to associated
    * ev_driver and fd_node objects */
-  grpc_core::Mutex mu;
+  Mutex mu;
   /** indicates the DNS server to use, if specified */
   struct ares_addr_port_node dns_server_addr ABSL_GUARDED_BY(mu);
   /** following members are set in grpc_resolve_address_ares_impl */
@@ -105,8 +105,8 @@ void grpc_ares_cleanup(void);
 bool grpc_ares_query_ipv6();
 
 /* Sorts destinations in lb_addrs according to RFC 6724. */
-void grpc_cares_wrapper_address_sorting_sort(
-    const grpc_ares_request* request, grpc_core::ServerAddressList* addresses);
+void grpc_cares_wrapper_address_sorting_sort(const grpc_ares_request* request,
+                                             ServerAddressList* addresses);
 
 /* Exposed in this header for C-core tests only */
 extern void (*grpc_ares_test_only_inject_config)(ares_channel channel);

@@ -31,19 +31,22 @@
 namespace grpc_core {
 namespace channelz {
 
-SubchannelNode::SubchannelNode(std::string target_address,
-                               size_t channel_tracer_max_nodes)
-    : BaseNode(EntityType::kSubchannel, target_address),
+::grpc_core::channelz::SubchannelNode::SubchannelNode(
+    std::string target_address, size_t channel_tracer_max_nodes)
+    : BaseNode(::grpc_core::channelz::ChannelNode::EntityType::kSubchannel,
+               target_address),
       target_(std::move(target_address)),
       trace_(channel_tracer_max_nodes) {}
 
-SubchannelNode::~SubchannelNode() {}
+::grpc_core::channelz::SubchannelNode::~SubchannelNode() {}
 
-void SubchannelNode::UpdateConnectivityState(grpc_connectivity_state state) {
+void ::grpc_core::channelz::SubchannelNode::UpdateConnectivityState(
+    grpc_connectivity_state state) {
   connectivity_state_.store(state, std::memory_order_relaxed);
 }
 
-void SubchannelNode::SetChildSocket(RefCountedPtr<SocketNode> socket) {
+void ::grpc_core::channelz::SubchannelNode::SetChildSocket(
+    RefCountedPtr<SocketNode> socket) {
   MutexLock lock(&socket_mu_);
   child_socket_ = std::move(socket);
 }

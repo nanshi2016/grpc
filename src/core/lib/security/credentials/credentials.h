@@ -257,13 +257,13 @@ grpc_server_credentials* grpc_find_server_credentials_in_args(
 
 struct grpc_credentials_metadata_request {
   explicit grpc_credentials_metadata_request(
-      grpc_core::RefCountedPtr<grpc_call_credentials> creds)
+      RefCountedPtr<grpc_call_credentials> creds)
       : creds(std::move(creds)) {}
   ~grpc_credentials_metadata_request() {
     grpc_http_response_destroy(&response);
   }
 
-  grpc_core::RefCountedPtr<grpc_call_credentials> creds;
+  RefCountedPtr<grpc_call_credentials> creds;
   grpc_http_response response;
 };
 

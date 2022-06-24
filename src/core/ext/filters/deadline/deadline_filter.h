@@ -35,8 +35,8 @@ struct grpc_deadline_state {
 
   // We take a reference to the call stack for the timer callback.
   grpc_call_stack* call_stack;
-  grpc_core::CallCombiner* call_combiner;
-  grpc_core::Arena* arena;
+  grpc_core::CallCombinerallCombiner* call_cgrpc_core::Arenaer;
+  Arena* arena;
   grpc_core::TimerState* timer_state = nullptr;
   // Closure to invoke when we receive trailing metadata.
   // We use this to cancel the timer.

@@ -190,7 +190,7 @@ class Server::RequestMatcherInterface {
 // application to explicitly request RPCs and then matching those to incoming
 // RPCs, along with a slow path by which incoming RPCs are put on a locked
 // pending list if they aren't able to be matched to an application request.
-class Server::RealRequestMatcher : public RequestMatcherInterface {
+class Server::RealRequestMatcher : public Server::RequestMatcherInterface {
  public:
   explicit RealRequestMatcher(Server* server)
       : server_(server), requests_per_cq_(server->cqs_.size()) {}
@@ -319,7 +319,8 @@ class Server::RealRequestMatcher : public RequestMatcherInterface {
 // object. These request matchers are designed for the C++ callback API, so they
 // only support 1 completion queue (passed in at the constructor). They are also
 // used for the sync API.
-class Server::AllocatingRequestMatcherBase : public RequestMatcherInterface {
+class Server::AllocatingRequestMatcherBase
+    : public Server::RequestMatcherInterface {
  public:
   AllocatingRequestMatcherBase(Server* server, grpc_completion_queue* cq)
       : server_(server), cq_(cq) {
@@ -363,7 +364,7 @@ class Server::AllocatingRequestMatcherBase : public RequestMatcherInterface {
 // An allocating request matcher for non-registered methods (used for generic
 // API and unimplemented RPCs).
 class Server::AllocatingRequestMatcherBatch
-    : public AllocatingRequestMatcherBase {
+    : public Server::AllocatingRequestMatcherBase {
  public:
   AllocatingRequestMatcherBatch(Server* server, grpc_completion_queue* cq,
                                 std::function<BatchCallAllocation()> allocator)
@@ -394,7 +395,7 @@ class Server::AllocatingRequestMatcherBatch
 
 // An allocating request matcher for registered methods.
 class Server::AllocatingRequestMatcherRegistered
-    : public AllocatingRequestMatcherBase {
+    : public Server::AllocatingRequestMatcherBase {
  public:
   AllocatingRequestMatcherRegistered(
       Server* server, grpc_completion_queue* cq, RegisteredMethod* rm,
