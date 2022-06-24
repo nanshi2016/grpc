@@ -172,7 +172,7 @@ TEST(TooManyPings, TestLotsOfServerCancelledRpcsDoesntGiveTooManyPings) {
   // create the server
   grpc_server* server = grpc_server_create(nullptr, nullptr);
   std::string server_address =
-      grpc_core::JoinHostPort("localhost", grpc_pick_unused_port_or_die());
+      JoinHostPort("localhost", grpc_pick_unused_port_or_die());
   grpc_server_register_completion_queue(server, cq, nullptr);
   GPR_ASSERT(
       grpc_server_add_insecure_http2_port(server, server_address.c_str()));
@@ -352,7 +352,7 @@ class KeepaliveThrottlingTest : public ::testing::Test {
 TEST_F(KeepaliveThrottlingTest, KeepaliveThrottlingMultipleChannels) {
   grpc_completion_queue* cq = grpc_completion_queue_create_for_next(nullptr);
   std::string server_address =
-      grpc_core::JoinHostPort("127.0.0.1", grpc_pick_unused_port_or_die());
+      JoinHostPort("127.0.0.1", grpc_pick_unused_port_or_die());
   grpc_server* server = ServerStart(server_address.c_str(), cq);
   // create two channel with a keepalive ping interval of 1 second.
   grpc_arg client_args[] = {
@@ -400,9 +400,9 @@ TEST_F(KeepaliveThrottlingTest, KeepaliveThrottlingMultipleChannels) {
   grpc_completion_queue_destroy(cq);
 }
 
-grpc_core::Resolver::Result BuildResolverResult(
+Resolver::Result BuildResolverResult(
     const std::vector<std::string>& addresses) {
-  grpc_core::Resolver::Result result;
+  Resolver::Result result;
   result.addresses = grpc_core::ServerAddressList();
   for (const auto& address_str : addresses) {
     absl::StatusOr<grpc_core::URI> uri = grpc_core::URI::Parse(address_str);

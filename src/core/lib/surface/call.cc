@@ -131,7 +131,7 @@ struct child_call {
 #define RECV_INITIAL_METADATA_FIRST ((gpr_atm)1)
 
 struct grpc_call {
-  grpc_call(grpc_core::Arena* arena, const grpc_call_create_args& args)
+  grpc_call(Arena* arena, const grpc_call_create_args& args)
       : arena(arena),
         cq(args.cq),
         channel(args.channel),
@@ -147,9 +147,9 @@ struct grpc_call {
     gpr_free(static_cast<void*>(const_cast<char*>(final_info.error_string)));
   }
 
-  grpc_core::RefCount ext_ref;
-  grpc_core::Arena* arena;
-  grpc_core::CallCombiner call_combiner;
+  RefCount ext_ref;
+  Arena* arena;
+  CallCombiner call_combiner;
   grpc_completion_queue* cq;
   grpc_polling_entity pollent;
   grpc_channel* channel;
@@ -200,8 +200,7 @@ struct grpc_call {
       GRPC_COMPRESS_NONE;
   /* Supported encodings (compression algorithms), a bitset.
    * Always support no compression. */
-  grpc_core::CompressionAlgorithmSet encodings_accepted_by_peer{
-      GRPC_COMPRESS_NONE};
+  CompressionAlgorithmSet encodings_accepted_by_peer{GRPC_COMPRESS_NONE};
   /* Supported stream encodings (stream compression algorithms), a bitset */
   uint32_t stream_encodings_accepted_by_peer = 0;
 
@@ -210,9 +209,9 @@ struct grpc_call {
 
   grpc_millis send_deadline;
 
-  grpc_core::ManualConstructor<grpc_core::SliceBufferByteStream> sending_stream;
+  ManualConstructor<grpc_core::SliceBufferByteStream> sending_stream;
 
-  grpc_core::OrphanablePtr<grpc_core::ByteStream> receiving_stream;
+  OrphanablePtr<grpc_core::ByteStream> receiving_stream;
   bool call_failed_before_recv_message = false;
   grpc_byte_buffer** receiving_buffer = nullptr;
   grpc_slice receiving_slice = grpc_empty_slice();
@@ -236,7 +235,7 @@ struct grpc_call {
     struct {
       int* cancelled;
       // backpointer to owning server if this is a server side call.
-      grpc_core::Server* core_server;
+      Server* core_server;
     } server;
   } final_op;
   AtomicError status_error;
@@ -260,8 +259,8 @@ struct grpc_call {
   gpr_atm recv_state = 0;
 };
 
-grpc_core::TraceFlag grpc_call_error_trace(false, "call_error");
-grpc_core::TraceFlag grpc_compression_trace(false, "compression");
+TraceFlag grpc_call_error_trace(false, "call_error");
+TraceFlag grpc_compression_trace(false, "compression");
 
 #define CALL_STACK_FROM_CALL(call)   \
   (grpc_call_stack*)((char*)(call) + \
@@ -332,7 +331,7 @@ grpc_error_handle grpc_call_create(grpc_call_create_args* args,
 
   GRPC_CHANNEL_INTERNAL_REF(args->channel, "call");
 
-  grpc_core::Arena* arena;
+  Arena* arena;
   grpc_call* call;
   grpc_error_handle error = GRPC_ERROR_NONE;
   grpc_channel_stack* channel_stack =
@@ -345,9 +344,8 @@ grpc_error_handle grpc_call_create(grpc_call_create_args* args,
   size_t call_alloc_size =
       call_and_stack_size + (args->parent ? sizeof(child_call) : 0);
 
-  std::pair<grpc_core::Arena*, void*> arena_with_call =
-      grpc_core::Arena::CreateWithAlloc(initial_size, call_alloc_size,
-                                        &*args->channel->allocator);
+  std::pair<grpc_core::Arena*, void*> arena_with_call = Arena::CreateWithAlloc(
+      initial_size, call_alloc_size, &*args->channel->allocator);
   arena = arena_with_call.first;
   call = new (arena_with_call.second) grpc_call(arena, *args);
   *out_call = call;

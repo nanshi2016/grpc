@@ -49,11 +49,11 @@
 
 namespace {
 
-grpc_core::RefCountedPtr<grpc_auth_context> local_auth_context_create(
+RefCountedPtr<grpc_auth_context> local_auth_context_create(
     const tsi_peer* peer) {
   /* Create auth context. */
-  grpc_core::RefCountedPtr<grpc_auth_context> ctx =
-      grpc_core::MakeRefCounted<grpc_auth_context>(nullptr);
+  RefCountedPtr<grpc_auth_context> ctx =
+      MakeRefCounted<grpc_auth_context>(nullptr);
   grpc_auth_context_add_cstring_property(
       ctx.get(), GRPC_TRANSPORT_SECURITY_TYPE_PROPERTY_NAME,
       GRPC_LOCAL_TRANSPORT_SECURITY_TYPE);
@@ -70,7 +70,7 @@ grpc_core::RefCountedPtr<grpc_auth_context> local_auth_context_create(
 }
 
 void local_check_peer(tsi_peer peer, grpc_endpoint* ep,
-                      grpc_core::RefCountedPtr<grpc_auth_context>* auth_context,
+                      RefCountedPtr<grpc_auth_context>* auth_context,
                       grpc_closure* on_peer_checked,
                       grpc_local_connect_type type) {
   grpc_resolved_address resolved_addr;
@@ -111,7 +111,7 @@ void local_check_peer(tsi_peer peer, grpc_endpoint* ep,
   if (!is_endpoint_local) {
     error = GRPC_ERROR_CREATE_FROM_STATIC_STRING(
         "Endpoint is neither UDS or TCP loopback address.");
-    grpc_core::ExecCtx::Run(DEBUG_LOCATION, on_peer_checked, error);
+    ExecCtx::Run(DEBUG_LOCATION, on_peer_checked, error);
     return;
   }
   // Add TSI_SECURITY_LEVEL_PEER_PROPERTY type peer property.
@@ -141,15 +141,15 @@ void local_check_peer(tsi_peer peer, grpc_endpoint* ep,
   error = *auth_context != nullptr ? GRPC_ERROR_NONE
                                    : GRPC_ERROR_CREATE_FROM_STATIC_STRING(
                                          "Could not create local auth context");
-  grpc_core::ExecCtx::Run(DEBUG_LOCATION, on_peer_checked, error);
+  ExecCtx::Run(DEBUG_LOCATION, on_peer_checked, error);
 }
 
 class grpc_local_channel_security_connector final
     : public grpc_channel_security_connector {
  public:
   grpc_local_channel_security_connector(
-      grpc_core::RefCountedPtr<grpc_channel_credentials> channel_creds,
-      grpc_core::RefCountedPtr<grpc_call_credentials> request_metadata_creds,
+      RefCountedPtr<grpc_channel_credentials> channel_creds,
+      RefCountedPtr<grpc_call_credentials> request_metadata_creds,
       const char* target_name)
       : grpc_channel_security_connector(nullptr, std::move(channel_creds),
                                         std::move(request_metadata_creds)),

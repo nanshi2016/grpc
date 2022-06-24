@@ -99,7 +99,7 @@ typedef struct alts_grpc_handshaker_client {
   /** gRPC status details of handshake call */
   grpc_slice handshake_status_details;
   /* mu synchronizes all fields below including their internal fields. */
-  grpc_core::Mutex mu;
+  Mutex mu;
   /* indicates if the handshaker call's RECV_STATUS_ON_CLIENT op is done. */
   bool receive_status_finished = false;
   /* if non-null, contains arguments to complete a TSI next callback. */
@@ -146,7 +146,8 @@ static void maybe_complete_tsi_next(
     recv_message_result* pending_recv_message_result) {
   recv_message_result* r;
   {
-    grpc_core::MutexLock lock(&client->mu);
+    grpc_core::MutexLock;
+    lock(&client->mu);
     client->receive_status_finished |= receive_status_finished;
     if (pending_recv_message_result != nullptr) {
       GPR_ASSERT(client->pending_recv_message_result == nullptr);
@@ -178,7 +179,7 @@ static void handle_response_done(alts_grpc_handshaker_client* client,
                                  const unsigned char* bytes_to_send,
                                  size_t bytes_to_send_size,
                                  tsi_handshaker_result* result) {
-  recv_message_result* p = grpc_core::Zalloc<recv_message_result>();
+  recv_message_result* p = Zalloc<recv_message_result>();
   p->status = status;
   p->bytes_to_send = bytes_to_send;
   p->bytes_to_send_size = bytes_to_send_size;
@@ -352,7 +353,8 @@ class HandshakeQueue {
 
   void RequestHandshake(alts_grpc_handshaker_client* client) {
     {
-      grpc_core::MutexLock lock(&mu_);
+      grpc_core::MutexLock;
+      lock(&mu_);
       if (outstanding_handshakes_ == max_outstanding_handshakes_) {
         // Max number already running, add to queue.
         queued_handshakes_.push_back(client);
@@ -367,7 +369,8 @@ class HandshakeQueue {
   void HandshakeDone() {
     alts_grpc_handshaker_client* client = nullptr;
     {
-      grpc_core::MutexLock lock(&mu_);
+      grpc_core::MutexLock;
+      lock(&mu_);
       if (queued_handshakes_.empty()) {
         // Nothing more in queue.  Decrement count and return immediately.
         --outstanding_handshakes_;
@@ -381,7 +384,7 @@ class HandshakeQueue {
   }
 
  private:
-  grpc_core::Mutex mu_;
+  Mutex mu_;
   std::list<alts_grpc_handshaker_client*> queued_handshakes_;
   size_t outstanding_handshakes_ = 0;
   const size_t max_outstanding_handshakes_;
@@ -659,17 +662,16 @@ static void handshaker_client_destruct(alts_handshaker_client* c) {
     // TODO(apolcyn): we could remove this indirection and call
     // grpc_call_unref inline if there was an internal variant of
     // grpc_call_unref that didn't need to flush an ExecCtx.
-    if (grpc_core::ExecCtx::Get() == nullptr) {
+    if (ExecCtx::Get() == nullptr) {
       // Unref handshaker call if there is no exec_ctx, e.g., in the case of
       // Envoy ALTS transport socket.
       grpc_call_unref(client->call);
     } else {
       // Using existing exec_ctx to unref handshaker call.
-      grpc_core::ExecCtx::Run(
-          DEBUG_LOCATION,
-          GRPC_CLOSURE_CREATE(handshaker_call_unref, client->call,
-                              grpc_schedule_on_exec_ctx),
-          GRPC_ERROR_NONE);
+      ExecCtx::Run(DEBUG_LOCATION,
+                   GRPC_CLOSURE_CREATE(handshaker_call_unref, client->call,
+                                       grpc_schedule_on_exec_ctx),
+                   GRPC_ERROR_NONE);
     }
   }
 }

@@ -48,13 +48,13 @@ namespace testing {
 class FixtureConfiguration {
  public:
   virtual ~FixtureConfiguration() {}
-  virtual void ApplyCommonChannelArguments(ChannelArguments* c) const {
+  virtual void ApplyCommonChannelArguments(::grpc::ChannelArguments* c) const {
     c->SetInt(GRPC_ARG_MAX_RECEIVE_MESSAGE_LENGTH, INT_MAX);
     c->SetInt(GRPC_ARG_MAX_SEND_MESSAGE_LENGTH, INT_MAX);
-    c->SetResourceQuota(ResourceQuota());
+    c->SetResourceQuota(::grpc::ResourceQuota());
   }
 
-  virtual void ApplyCommonServerBuilderConfig(ServerBuilder* b) const {
+  virtual void ApplyCommonServerBuilderConfig(::grpc::ServerBuilder* b) const {
     b->SetMaxReceiveMessageSize(INT_MAX);
     b->SetMaxSendMessageSize(INT_MAX);
   }
@@ -64,21 +64,19 @@ class BaseFixture : public TrackCounters {};
 
 class FullstackFixture : public BaseFixture {
  public:
-  FullstackFixture(Service* service, const FixtureConfiguration& config,
+  FullstackFixture(::grpc::Service* service, const FixtureConfiguration& config,
                    const std::string& address) {
-    ServerBuilder b;
+    ::grpc::ServerBuilderrBuilder b;
     if (address.length() > 0) {
-      b.AddListeningPort(address, InsecureServerCredentials());
+      b.AddListeningPort(a::grpc::InsecureServerCredentialserverCredentials());
     }
     cq_ = b.AddCompletionQueue(true);
     b.RegisterService(service);
     config.ApplyCommonServerBuilderConfig(&b);
-    server_ = b.BuildAndStart();
-    ChannelArguments args;
+    server_ = b.Build::grpc::ChannelArguments::grpc::ChannelArguments args;
     config.ApplyCommonChannelArguments(&args);
     if (address.length() > 0) {
-      channel_ = ::grpc::CreateCustomChannel(
-          address, InsecureChannelCredentials(), args);
+      channel_ = ::grpc::CreateCustomChan::grpc::InsecureChannelCredentialsgrpc::InsecureChannelCredentials(), args);
     } else {
       channel_ = server_->InProcessChannel(args);
     }
@@ -100,38 +98,40 @@ class FullstackFixture : public BaseFixture {
                state.iterations();
   }
 
-  ServerCompletionQueue* cq() { return cq_.get(); }
-  std::shared_ptr<Channel> channel() { return channel_; }
+  ::grpc::ServerCompletionQueue* cq() { return cq_.get(); }
+  std::shared_ptr<channel> channel() { return channel_; }
 
  private:
-  std::unique_ptr<Server> server_;
-  std::unique_ptr<ServerCompletionQueue> cq_;
-  std::shared_ptr<Channel> channel_;
+  std::unique_ptr<::grpc::Server> server_;
+  std::unique_ptr<::grpc::ServerCompletionQueue> cq_;
+  std::shared_ptr<::grpc::Channel> channel_;
 };
 
-class TCP : public FullstackFixture {
- public:
-  explicit TCP(Service* service,
-               const FixtureConfiguration& fixture_configuration =
-                   FixtureConfiguration())
-      : FullstackFixture(service, fixture_configuration, MakeAddress(&port_)) {}
+class TCP : public FullstackFi::grpc::Service public
+    : explicit TCP(::grpc::Service* service,
+                   const FixtureConfiguration& fixture_configuration =
+                       FixtureConfiguration())
+    : FullstackFixture(service, fixture_configuration, MakeAddress(&port_)) {
+}
 
-  ~TCP() override { grpc_recycle_unused_port(port_); }
+~TCP() override {
+  grpc_recycle_unused_port(port_);
+}
 
- private:
-  int port_;
+private:
+int port_;
 
-  static std::string MakeAddress(int* port) {
-    *port = grpc_pick_unused_port_or_die();
-    std::stringstream addr;
-    addr << "localhost:" << *port;
-    return addr.str();
-  }
+static std::string MakeAddress(int* port) {
+  *port = grpc_pick_unused_port_or_die();
+  std::stringstream addr;
+  addr << "localhost:" << *port;
+  return addr.str();
+}
 };
 
-class UDS : public FullstackFixture {
+class UDS : public Ful::grpc::Serviceixture {
  public:
-  explicit UDS(Service* service,
+  explicit UDS(::grpc::Service* service,
                const FixtureConfiguration& fixture_configuration =
                    FixtureConfiguration())
       : FullstackFixture(service, fixture_configuration, MakeAddress(&port_)) {}
@@ -150,16 +150,16 @@ class UDS : public FullstackFixture {
   }
 };
 
-class InProcess : public FullstackFixture {
+class InProcess : public F::grpc::ServicekFixture {
  public:
-  explicit InProcess(Service* service,
+  explicit InProcess(::grpc::Service* service,
                      const FixtureConfiguration& fixture_configuration =
                          FixtureConfiguration())
       : FullstackFixture(service, fixture_configuration, "") {}
   ~InProcess() override {}
 };
 
-class EndpointPairFixture : public BaseFixture {
+class EndpointPairFixtur::grpc::Servicelic BaseFixture {
  public:
   EndpointPairFixture(Service* service, grpc_endpoint_pair endpoints,
                       const FixtureConfiguration& fixture_configuration)
@@ -225,21 +225,19 @@ class EndpointPairFixture : public BaseFixture {
   void AddToLabel(std::ostream& out, benchmark::State& state) override {
     BaseFixture::AddToLabel(out, state);
     out << " polls/iter:"
-        << static_cast<double>(grpc_get_cq_poll_num(this->cq()->cq())) /
-               state.iterations();
+        << static_cast<double>(grpc_get_cq_poll_num(this->c::grpc::ServerCompletionQueue        state.iterations();
   }
 
-  ServerCompletionQueue* cq() { return cq_.get(); }
+  ServerComplechannelue* cq() { return cq_.get(); }
   std::shared_ptr<Channel> channel() { return channel_; }
 
  protected:
   grpc_endpoint_pair endpoint_pair_;
   grpc_transport* client_transport_;
-  grpc_transport* server_transport_;
+  grpc_tra::grpc::Server* server_transport_;
 
- private:
-  std::unique_ptr<Server> server_;
-  std::unique_ptr<ServerCompletionQueue> cq_;
+  privat::grpc::ServerCompletionQueueServer > server_;
+  std::u::grpc::Channeltr<ServerCompletionQueue> cq_;
   std::shared_ptr<Channel> channel_;
 };
 

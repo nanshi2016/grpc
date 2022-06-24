@@ -25,12 +25,12 @@
 namespace grpc {
 namespace testing {
 
-int ChannelTestPeer::registered_calls() const {
+int ::grpc::testing::ChannelTestPeer::registered_calls() const {
   grpc_core::MutexLock lock(&channel_->c_channel_->registration_table->mu);
   return static_cast<int>(channel_->c_channel_->registration_table->map.size());
 }
 
-int ChannelTestPeer::registration_attempts() const {
+int ::grpc::testing::ChannelTestPeer::registration_attempts() const {
   grpc_core::MutexLock lock(&channel_->c_channel_->registration_table->mu);
   return channel_->c_channel_->registration_table->method_registration_attempts;
 }

@@ -100,10 +100,10 @@ namespace grpc_core {
 
 namespace {
 
+using ::grpc_core::internal::ServerRetryThrottleData;
 using internal::RetryGlobalConfig;
 using internal::RetryMethodConfig;
 using internal::RetryServiceConfigParser;
-using internal::ServerRetryThrottleData;
 
 TraceFlag grpc_retry_trace(false, "retry");
 
@@ -171,8 +171,10 @@ class RetryFilter {
     }
     std::string server_name(absl::StripPrefix(uri->path(), "/"));
     // Get throttling config for server_name.
-    retry_throttle_data_ = internal::ServerRetryThrottleMap::GetDataForServer(
-        server_name, config->max_milli_tokens(), config->milli_token_ratio());
+    retry_throttle_data_ =
+        ::grpc_core::internal::ServerRetryThrottleMap::GetDataForServer(
+            server_name, config->max_milli_tokens(),
+            config->milli_token_ratio());
   }
 
   ClientChannel* client_channel_;

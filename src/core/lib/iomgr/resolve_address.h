@@ -60,16 +60,16 @@ class DNSResolver {
   // Request::Start(). The DNSCallbackExecCtxScheduler utility may help address
   // this.
   virtual OrphanablePtr<Request> ResolveName(
-      absl::string_view name, absl::string_view default_port,
+      ::absl::string_view name, ::absl::string_view default_port,
       grpc_pollset_set* interested_parties,
-      std::function<void(absl::StatusOr<std::vector<grpc_resolved_address>>)>
+      std::function<void(::absl::StatusOr<std::vector<grpc_resolved_address>>)>
           on_done) GRPC_MUST_USE_RESULT = 0;
 
   // Resolve name in a blocking fashion. Use \a default_port if a port isn't
   // designated in \a name, otherwise use the port in \a name.
-  virtual absl::StatusOr<std::vector<grpc_resolved_address>>
-  ResolveNameBlocking(absl::string_view name,
-                      absl::string_view default_port) = 0;
+  virtual ::absl::StatusOr<std::vector<grpc_resolved_address>>
+  ResolveNameBlocking(::absl::string_view name,
+                      ::absl::string_view default_port) = 0;
 };
 
 // Override the active DNS resolver which should be used for all DNS

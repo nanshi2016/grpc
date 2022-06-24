@@ -49,14 +49,15 @@ namespace {
 size_t g_client_channel_service_config_parser_index;
 }
 
-size_t ClientChannelServiceConfigParser::ParserIndex() {
+size_t ::grpc_core::internal::ClientChannelServiceConfigParser::ParserIndex() {
   return g_client_channel_service_config_parser_index;
 }
 
-void ClientChannelServiceConfigParser::Register() {
+void ::grpc_core::internal::ClientChannelServiceConfigParser::Register() {
   g_client_channel_service_config_parser_index =
       ServiceConfigParser::RegisterParser(
-          absl::make_unique<ClientChannelServiceConfigParser>());
+          absl::make_unique<
+              ::grpc_core::internal::ClientChannelServiceConfigParser>());
 }
 
 namespace {
@@ -87,10 +88,10 @@ absl::optional<std::string> ParseHealthCheckConfig(const Json& field,
 
 }  // namespace
 
-std::unique_ptr<ServiceConfigParser::ParsedConfig>
-ClientChannelServiceConfigParser::ParseGlobalParams(
-    const grpc_channel_args* /*args*/, const Json& json,
-    grpc_error_handle* error) {
+std::unique_ptr<ServiceConfigParser::ParsedConfig>::grpc_core::internal::
+    ClientChannelServiceConfigParser::ParseGlobalParams(
+        const grpc_channel_args* /*args*/, const Json& json,
+        grpc_error_handle* error) {
   GPR_DEBUG_ASSERT(error != nullptr && *error == GRPC_ERROR_NONE);
   std::vector<grpc_error_handle> error_list;
   // Parse LB config.
@@ -146,17 +147,18 @@ ClientChannelServiceConfigParser::ParseGlobalParams(
   *error = GRPC_ERROR_CREATE_FROM_VECTOR("Client channel global parser",
                                          &error_list);
   if (*error == GRPC_ERROR_NONE) {
-    return absl::make_unique<ClientChannelGlobalParsedConfig>(
+    return absl::make_unique<
+        ::grpc_core::internal::ClientChannelGlobalParsedConfig>(
         std::move(parsed_lb_config), std::move(lb_policy_name),
         std::move(health_check_service_name));
   }
   return nullptr;
 }
 
-std::unique_ptr<ServiceConfigParser::ParsedConfig>
-ClientChannelServiceConfigParser::ParsePerMethodParams(
-    const grpc_channel_args* /*args*/, const Json& json,
-    grpc_error_handle* error) {
+std::unique_ptr<ServiceConfigParser::ParsedConfig>::grpc_core::internal::
+    ClientChannelServiceConfigParser::ParsePerMethodParams(
+        const grpc_channel_args* /*args*/, const Json& json,
+        grpc_error_handle* error) {
   GPR_DEBUG_ASSERT(error != nullptr && *error == GRPC_ERROR_NONE);
   std::vector<grpc_error_handle> error_list;
   // Parse waitForReady.

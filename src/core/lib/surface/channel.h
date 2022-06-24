@@ -93,7 +93,7 @@ struct CallRegistrationTable {
   int method_registration_attempts ABSL_GUARDED_BY(mu) = 0;
 };
 
-    const grpc_channel* channel);
+const grpc_channel* channel;
 
 // Ping the channels peer (load balanced channels will select one sub-channel to
 // ping); if the channel is not connected, posts a failed.

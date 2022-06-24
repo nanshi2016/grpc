@@ -47,9 +47,9 @@ class URI {
 
   // Creates a URI by parsing an rfc3986 URI string. Returns an
   // InvalidArgumentError on failure.
-  static absl::StatusOr<URI> Parse(absl::string_view uri_text);
+  static ::absl::StatusOr<URI> Parse(::absl::string_view uri_text);
   // Creates a URI from components. Returns an InvalidArgumentError on failure.
-  static absl::StatusOr<URI> Create(
+  static ::absl::StatusOr<URI> Create(
       std::string scheme, std::string authority, std::string path,
       std::vector<QueryParam> query_parameter_pairs, std::string fragment);
 
@@ -62,9 +62,9 @@ class URI {
   URI(URI&&) = default;
   URI& operator=(URI&&) = default;
 
-  static std::string PercentEncodePath(absl::string_view str);
+  static std::string PercentEncodePath(::absl::string_view str);
 
-  static std::string PercentDecode(absl::string_view str);
+  static std::string PercentDecode(::absl::string_view str);
 
   const std::string& scheme() const { return scheme_; }
   const std::string& authority() const { return authority_; }
