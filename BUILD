@@ -566,6 +566,13 @@ grpc_cc_library(
 )
 
 grpc_cc_library(
+        name = "grpc_cronet_hdrs",
+        hdrs = [
+            "include/grpc/grpc_cronet.h",
+        ],
+    )
+
+grpc_cc_library(
     name = "grpc++_internals",
     srcs = [
         "src/cpp/client/insecure_credentials.cc",
