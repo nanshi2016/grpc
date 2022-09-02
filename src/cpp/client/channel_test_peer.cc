@@ -16,8 +16,6 @@
  *
  */
 
-#include <stddef.h>
-
 #include <grpcpp/channel.h>
 #include <grpcpp/test/channel_test_peer.h>
 
