@@ -18,13 +18,10 @@
 
 #include "src/core/ext/transport/chttp2/transport/varint.h"
 
-#include <stddef.h>
-
-#include "gtest/gtest.h"
-
 #include <grpc/slice.h>
 #include <grpc/support/log.h>
 
+#include "gtest/gtest.h"
 #include "test/core/util/test_config.h"
 
 template <uint8_t kPrefixBits>
