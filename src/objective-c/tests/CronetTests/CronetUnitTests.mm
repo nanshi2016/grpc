@@ -40,7 +40,7 @@
 #import "test/core/util/test_config.h"
 
 #if COCOAPODS
- #import <openssl_grpc/ssl.h>
+#import <openssl_grpc/ssl.h>
 #else
 #import <openssl/ssl.h>
 #endif

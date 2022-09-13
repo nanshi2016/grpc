@@ -708,6 +708,10 @@ grpc_cc_library(
     hdrs = [
         "include/grpc/grpc_cronet.h",
     ],
+    deps = [
+        "event_engine_base_hdrs",
+        "gpr_platform",
+    ],
 )
 
 grpc_cc_library(
