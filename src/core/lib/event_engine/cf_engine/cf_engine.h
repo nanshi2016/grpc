@@ -15,7 +15,7 @@
 #define GRPC_CORE_LIB_EVENT_ENGINE_CF_ENGINE_CF_ENGINE_H
 #include <grpc/support/port_platform.h>
 
-#ifdef GPR_APPLE
+#ifdef GRPC_CORE_LIB_EVENT_ENGINE_CF_ENGINE_CF_ENGINE_H
 
 #include <grpc/event_engine/event_engine.h>
 
@@ -75,6 +75,6 @@ class CFEventEngine : public EventEngine {
 }  // namespace experimental
 }  // namespace grpc_event_engine
 
-#endif  // GPR_APPLE
+#endif  // GRPC_CORE_LIB_EVENT_ENGINE_CF_ENGINE_CF_ENGINE_H
 
 #endif  // GRPC_CORE_LIB_EVENT_ENGINE_CF_ENGINE_CF_ENGINE_H
