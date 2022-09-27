@@ -2909,20 +2909,13 @@ grpc_cc_library(
     name = "cf_event_engine",
     srcs = ["src/core/lib/event_engine/cf_engine/cf_engine.cc"],
     hdrs = ["src/core/lib/event_engine/cf_engine/cf_engine.h"],
-    external_deps = [
-        "absl/status",
-        "absl/status:statusor",
-        "absl/strings",
-    ],
     deps = [
         "event_engine_base_hdrs",
         "event_engine_common",
-        "event_engine_threaded_executor",
         "event_engine_trace",
         "event_engine_utils",
         "gpr",
         "posix_event_engine_timer_manager",
-        "time",
     ],
 )
 
