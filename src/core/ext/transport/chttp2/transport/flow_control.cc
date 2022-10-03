@@ -288,7 +288,7 @@ void TransportFlowControl::UpdateSetting(
       if (new_desired_value == 0) {
         urgency = FlowControlAction::Urgency::UPDATE_IMMEDIATELY;
       }
-      (action->*set)(urgency, *desired_value);
+      (action->*set)(urgency, static_cast<uint32_t>(*desired_value));
     }
   } else {
     int64_t delta = new_desired_value - *desired_value;
