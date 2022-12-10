@@ -633,6 +633,7 @@ def make_library(library):
 
     return (library, error, deps, external_deps)
 
+
 if __name__ == "__main__":
     update_libraries = []
     for library in sorted(consumes.keys()):
