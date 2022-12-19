@@ -23,10 +23,15 @@ int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
   grpc::testing::TestEnvironment env(&argc, argv);
   auto factory = []() {
-    return absl::make_unique<grpc_event_engine::experimental::CFEventEngine>();
+    return std::make_unique<grpc_event_engine::experimental::CFEventEngine>();
   };
   SetEventEngineFactories(factory, factory);
-  return RUN_ALL_TESTS();
+  // TODO(ctiller): EventEngine temporarily needs grpc to be initialized first
+  // until we clear out the iomgr shutdown code.
+  grpc_init();
+  int r = RUN_ALL_TESTS();
+  grpc_shutdown();
+  return r;
 }
 
 #else  // GPR_APPLE

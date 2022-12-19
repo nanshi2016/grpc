@@ -27,7 +27,7 @@ namespace experimental {
 class CFEventEngine::Closure final : public EventEngine::Closure {
  public:
   absl::AnyInvocable<void()> cb;
-  posix_engine::Timer timer;
+  Timer timer;
   CFEventEngine* engine;
   EventEngine::TaskHandle handle;
 
@@ -42,6 +42,25 @@ class CFEventEngine::Closure final : public EventEngine::Closure {
     delete this;
   }
 };
+
+CFEventEngine::CFEventEngine()
+    : executor_(std::make_shared<ThreadPool>()), timer_manager_(executor_) {}
+
+CFEventEngine::~CFEventEngine() {
+  {
+    grpc_core::MutexLock lock(&mu_);
+    if (GRPC_TRACE_FLAG_ENABLED(grpc_event_engine_trace)) {
+      for (auto handle : known_handles_) {
+        gpr_log(GPR_ERROR,
+                "WindowsEventEngine:%p uncleared TaskHandle at shutdown:%s",
+                this, HandleToString(handle).c_str());
+      }
+    }
+    GPR_ASSERT(GPR_LIKELY(known_handles_.empty()));
+    timer_manager_.Shutdown();
+  }
+  executor_->Quiesce();
+}
 
 absl::StatusOr<std::unique_ptr<EventEngine::Listener>>
 CFEventEngine::CreateListener(
@@ -109,7 +128,7 @@ EventEngine::TaskHandle CFEventEngine::RunAfterInternal(
   grpc_core::MutexLock lock(&mu_);
   known_handles_.insert(handle);
   cd->handle = handle;
-  GRPC_EVENT_ENGINE_TRACE("WindowsEventEngine:%p scheduling callback:%s", this,
+  GRPC_EVENT_ENGINE_TRACE("CFEventEngine:%p scheduling callback:%s", this,
                           HandleToString(handle).c_str());
   timer_manager_.TimerInit(&cd->timer, when_ts, cd);
   return handle;

@@ -121,8 +121,8 @@ grpc_cc_test(
     ],
     uses_polling = False,
     deps = [
-        "//:cf_event_engine",
-        "//test/core/event_engine/test_suite:timer",
+        ":timer",
+        "//src/core:cf_event_engine",
     ],
 )
 
