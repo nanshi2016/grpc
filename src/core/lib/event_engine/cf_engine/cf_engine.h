@@ -22,12 +22,17 @@
 #include "src/core/lib/event_engine/handle_containers.h"
 #include "src/core/lib/event_engine/posix_engine/timer_manager.h"
 #include "src/core/lib/gprpp/sync.h"
+#include "src/core/lib/surface/init_internally.h"
 
 namespace grpc_event_engine {
 namespace experimental {
 
-class CFEventEngine : public EventEngine {
+class CFEventEngine : public EventEngine,
+                      public grpc_core::KeepsGrpcInitialized {
  public:
+  CFEventEngine();
+  ~CFEventEngine() override;
+
   absl::StatusOr<std::unique_ptr<Listener>> CreateListener(
       Listener::AcceptCallback on_accept,
       absl::AnyInvocable<void(absl::Status)> on_shutdown,
@@ -69,7 +74,8 @@ class CFEventEngine : public EventEngine {
   TaskHandleSet known_handles_ ABSL_GUARDED_BY(mu_);
   std::atomic<intptr_t> aba_token_{0};
 
-  posix_engine::TimerManager timer_manager_;
+  std::shared_ptr<ThreadPool> executor_;
+  TimerManager timer_manager_;
 };
 
 }  // namespace experimental

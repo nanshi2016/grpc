@@ -1904,6 +1904,28 @@ grpc_cc_library(
 )
 
 grpc_cc_library(
+    name = "cf_event_engine",
+    srcs = ["lib/event_engine/cf_engine/cf_engine.cc"],
+    hdrs = ["lib/event_engine/cf_engine/cf_engine.h"],
+    external_deps = [
+        "absl/status",
+        "absl/status:statusor",
+        "absl/strings",
+    ],
+    deps = [
+        "event_engine_common",
+        "event_engine_thread_pool",
+        "event_engine_trace",
+        "event_engine_utils",
+        "init_internally",
+        "posix_event_engine_timer_manager",
+        "time",
+        "//:event_engine_base_hdrs",
+        "//:gpr",
+    ],
+)
+
+grpc_cc_library(
     name = "event_engine_tcp_socket_utils",
     srcs = [
         "lib/event_engine/tcp_socket_utils.cc",
@@ -1955,6 +1977,8 @@ grpc_cc_library(
         "//:windows": ["windows_event_engine"],
         "//:windows_msvc": ["windows_event_engine"],
         "//:windows_other": ["windows_event_engine"],
+        "//:mac_x86_64": ["cf_event_engine"],
+        "//:mac_arm64": ["cf_event_engine"],
         "//conditions:default": ["posix_event_engine"],
     }],
     deps = [
