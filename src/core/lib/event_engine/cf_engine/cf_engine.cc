@@ -24,8 +24,7 @@
 namespace grpc_event_engine {
 namespace experimental {
 
-class CFEventEngine::Closure final : public EventEngine::Closure {
- public:
+struct CFEventEngine::Closure final : public EventEngine::Closure {
   absl::AnyInvocable<void()> cb;
   Timer timer;
   CFEventEngine* engine;

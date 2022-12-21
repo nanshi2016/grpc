@@ -81,6 +81,6 @@ class CFEventEngine : public EventEngine,
 }  // namespace experimental
 }  // namespace grpc_event_engine
 
-#endif  // GPR_APPLE
+#endif
 
 #endif  // GRPC_CORE_LIB_EVENT_ENGINE_CF_ENGINE_CF_ENGINE_H
