@@ -119,8 +119,10 @@ grpc_cc_test(
         "no_linux",
         "no_windows",
     ],
-    uses_polling = False,
+    uses_polling = True,
     deps = [
+        ":client",
+        ":oracle_event_engine_posix",
         ":timer",
         "//src/core:cf_event_engine",
     ],
