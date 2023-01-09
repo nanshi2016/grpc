@@ -231,6 +231,7 @@
 #define GPR_PLATFORM_STRING "osx"
 #define GPR_CPU_POSIX 1
 #define GPR_POSIX_CRASH_HANDLER 1
+#define GRPC_CFSTREAM 1
 #endif
 #define GPR_APPLE 1
 #define GPR_GCC_ATOMIC 1

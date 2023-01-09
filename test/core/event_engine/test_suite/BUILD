@@ -121,6 +121,8 @@ grpc_cc_test(
     ],
     uses_polling = False,
     deps = [
+        ":client",
+        ":oracle_event_engine_posix",
         ":timer",
         "//src/core:cf_event_engine",
     ],

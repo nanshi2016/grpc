@@ -73,6 +73,9 @@ class PosixOracleEndpoint : public EventEngine::Endpoint {
     void operator()(std::string read_data, absl::Status status) {
       if (on_complete_ != nullptr) {
         AppendStringToSliceBuffer(std::exchange(buffer_, nullptr), read_data);
+        gpr_log(GPR_DEBUG,
+                "Oracle Engine: on_read, bytes_to_read: %d, read_data: %d",
+                num_bytes_to_read_, read_data.size());
         std::exchange(on_complete_, nullptr)(status);
       }
     }
@@ -96,6 +99,8 @@ class PosixOracleEndpoint : public EventEngine::Endpoint {
     std::string GetBytesToWrite() const { return bytes_to_write_; }
     void operator()(absl::Status status) {
       if (on_complete_ != nullptr) {
+        gpr_log(GPR_DEBUG, "Oracle Engine: on_writable, bytes_to_write: %d",
+                bytes_to_write_.size());
         std::exchange(on_complete_, nullptr)(status);
       }
     }
