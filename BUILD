@@ -845,6 +845,7 @@ grpc_cc_library(
     ],
     language = "c++",
     deps = [
+        "grpc",
         "grpc++_base",
         "grpc_cronet_hdrs",
     ],
