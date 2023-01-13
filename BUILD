@@ -847,6 +847,7 @@ grpc_cc_library(
     deps = [
         "grpc++_base",
         "grpc_cronet_hdrs",
+        "grpc_unsecure",
     ],
 )
 
