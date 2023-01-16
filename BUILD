@@ -71,8 +71,23 @@ config_setting(
 )
 
 config_setting(
+    name = "macos",
+    values = {"apple_platform_type": "macos"},
+)
+
+config_setting(
     name = "ios",
     values = {"apple_platform_type": "ios"},
+)
+
+config_setting(
+    name = "tvos",
+    values = {"apple_platform_type": "tvos"},
+)
+
+config_setting(
+    name = "watchos",
+    values = {"apple_platform_type": "watchos"},
 )
 
 config_setting(
@@ -144,8 +159,13 @@ config_setting(
 )
 
 config_setting(
-    name = "mac_x86_64",
+    name = "mac",
     values = {"cpu": "darwin"},
+)
+
+config_setting(
+    name = "mac_x86_64",
+    values = {"cpu": "darwin_x86_64"},
 )
 
 config_setting(
