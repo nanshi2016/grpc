@@ -76,6 +76,16 @@ config_setting(
 )
 
 config_setting(
+    name = "tvos",
+    values = {"apple_platform_type": "tvos"},
+)
+
+config_setting(
+    name = "watchos",
+    values = {"apple_platform_type": "watchos"},
+)
+
+config_setting(
     name = "systemd",
     values = {"define": "use_systemd=true"},
 )
