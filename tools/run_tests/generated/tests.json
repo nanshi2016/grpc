@@ -1341,7 +1341,7 @@
       "mac",
       "posix"
     ],
-    "uses_polling": false
+    "uses_polling": true
   },
   {
     "args": [],
@@ -5498,7 +5498,6 @@
     "benchmark": false,
     "ci_platforms": [
       "linux",
-      "mac",
       "posix"
     ],
     "cpu_cost": 1.0,
@@ -5510,7 +5509,6 @@
     "name": "posix_event_engine_connect_test",
     "platforms": [
       "linux",
-      "mac",
       "posix"
     ],
     "uses_polling": true
@@ -5520,7 +5518,6 @@
     "benchmark": false,
     "ci_platforms": [
       "linux",
-      "mac",
       "posix"
     ],
     "cpu_cost": 1.0,
@@ -5532,7 +5529,6 @@
     "name": "posix_event_engine_test",
     "platforms": [
       "linux",
-      "mac",
       "posix"
     ],
     "uses_polling": true
