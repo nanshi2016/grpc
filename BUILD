@@ -871,6 +871,7 @@ grpc_cc_library(
     ],
     language = "c++",
     deps = [
+        "event_engine_base_hdrs",
         "grpc++_base",
         "grpc_cronet_hdrs",
     ],
