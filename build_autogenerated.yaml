@@ -5561,6 +5561,7 @@ targets:
   - linux
   - posix
   - mac
+  uses_polling: false
 - name: cfstream_test
   gtest: true
   build: test
