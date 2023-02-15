@@ -2066,6 +2066,9 @@ grpc_cc_library(
         "lib/event_engine/cf_engine/cfstream_endpoint.h",
         "lib/event_engine/cf_engine/cftype_unique_ref.h",
     ],
+    defines = [
+        "GRPC_CFSTREAM=1",
+    ],
     external_deps = ["absl/strings:str_format"],
     deps = [
         "event_engine_common",

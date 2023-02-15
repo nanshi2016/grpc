@@ -81,7 +81,7 @@ grpc_cc_test(
         "no_linux",
         "no_windows",
     ],
-    uses_polling = false,
+    uses_polling = False,
     deps = [
         "//src/core:cf_event_engine",
         "//test/core/event_engine/test_suite/posix:oracle_event_engine_posix",

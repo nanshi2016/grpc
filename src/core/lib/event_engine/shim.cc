@@ -29,6 +29,8 @@ bool UseEventEngineClient() {
   return grpc_core::IsEventEngineClientEnabled();
 #elif defined(GPR_WINDOWS)
   return grpc_core::IsEventEngineClientEnabled();
+#elif defined(GRPC_CFSTREAM)
+  return true;
 #else
   return false;
 #endif
