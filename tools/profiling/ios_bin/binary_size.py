@@ -137,8 +137,8 @@ else:
         if abs(new_size[i] - old_size[i]) >= _DIFF_THRESHOLD:
             has_diff = True
         diff_sign = _diff_sign(new_size[i],
-                                old_size[i],
-                                diff_threshold=_DIFF_THRESHOLD)
+                               old_size[i],
+                               diff_threshold=_DIFF_THRESHOLD)
         text += _render_row(new_size[i], _SIZE_LABELS[i] + diff_sign,
                             old_size[i])
 
@@ -147,8 +147,7 @@ else:
     diff_sign = _diff_sign(new_size[i], old_size[i])
     # skip line before rendering "Total"
     text += '\n'
-    text += _render_row(new_size[i], _SIZE_LABELS[i] + diff_sign,
-                        old_size[i])
+    text += _render_row(new_size[i], _SIZE_LABELS[i] + diff_sign, old_size[i])
     if not has_diff:
         text += '\n No significant differences in binary sizes\n'
 text += '\n'
