@@ -2174,6 +2174,7 @@ grpc_cc_library(
         "//:windows": ["windows_event_engine"],
         "//:windows_msvc": ["windows_event_engine"],
         "//:windows_other": ["windows_event_engine"],
+        "//:macos": ["posix_event_engine", "cf_event_engine"],
         "//:ios": ["cf_event_engine"],
         "//:tvos": ["cf_event_engine"],
         "//:watchos": ["cf_event_engine"],
