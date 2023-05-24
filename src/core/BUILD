@@ -2120,10 +2120,12 @@ grpc_cc_library(
     name = "cf_event_engine",
     srcs = [
         "lib/event_engine/cf_engine/cf_engine.cc",
+        "lib/event_engine/cf_engine/dns_service_resolver.cc",
         "lib/event_engine/cf_engine/cfstream_endpoint.cc",
     ],
     hdrs = [
         "lib/event_engine/cf_engine/cf_engine.h",
+        "lib/event_engine/cf_engine/dns_service_resolver.h",
         "lib/event_engine/cf_engine/cfstream_endpoint.h",
         "lib/event_engine/cf_engine/cftype_unique_ref.h",
     ],
