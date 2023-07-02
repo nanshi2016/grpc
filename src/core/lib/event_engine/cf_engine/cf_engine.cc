@@ -22,6 +22,7 @@
 
 #include "src/core/lib/event_engine/cf_engine/cf_engine.h"
 #include "src/core/lib/event_engine/cf_engine/cfstream_endpoint.h"
+#include "src/core/lib/event_engine/cf_engine/dns_service_resolver.h"
 #include "src/core/lib/event_engine/posix_engine/timer_manager.h"
 #include "src/core/lib/event_engine/tcp_socket_utils.h"
 #include "src/core/lib/event_engine/thread_pool/thread_pool.h"
@@ -158,6 +159,8 @@ bool CFEventEngine::IsWorkerThread() { grpc_core::Crash("unimplemented"); }
 std::unique_ptr<EventEngine::DNSResolver> CFEventEngine::GetDNSResolver(
     const DNSResolver::ResolverOptions& /* options */) {
   grpc_core::Crash("unimplemented");
+  return std::make_unique<DNSServiceResolver>(
+      std::static_pointer_cast<CFEventEngine>(shared_from_this()));
 }
 
 void CFEventEngine::Run(EventEngine::Closure* closure) {

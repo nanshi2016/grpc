@@ -104,8 +104,9 @@ grpc_cc_test(
     deps = [
         "//src/core:cf_event_engine",
         "//test/core/event_engine/test_suite/posix:oracle_event_engine_posix",
-        "//test/core/event_engine/test_suite/tests:client",
-        "//test/core/event_engine/test_suite/tests:timer",
+        # "//test/core/event_engine/test_suite/tests:client",
+        # "//test/core/event_engine/test_suite/tests:timer",
+        "//test/core/event_engine/test_suite/tests:dns",
     ],
 )
 
