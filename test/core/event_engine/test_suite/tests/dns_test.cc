@@ -15,7 +15,6 @@
 // IWYU pragma: no_include <ratio>
 // IWYU pragma: no_include <arpa/inet.h>
 
-#include <cstdlib>
 #include <cstring>
 #include <initializer_list>
 #include <memory>
@@ -23,7 +22,6 @@
 #include <tuple>
 #include <vector>
 
-#include "absl/status/status.h"
 #include "absl/status/statusor.h"
 #include "absl/strings/str_format.h"
 #include "absl/strings/str_join.h"
