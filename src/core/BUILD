@@ -2110,14 +2110,14 @@ grpc_cc_library(
     name = "cf_event_engine",
     srcs = [
         "lib/event_engine/cf_engine/cf_engine.cc",
-        "lib/event_engine/cf_engine/dns_service_resolver.cc",
         "lib/event_engine/cf_engine/cfstream_endpoint.cc",
+        "lib/event_engine/cf_engine/dns_service_resolver.cc",
     ],
     hdrs = [
         "lib/event_engine/cf_engine/cf_engine.h",
-        "lib/event_engine/cf_engine/dns_service_resolver.h",
         "lib/event_engine/cf_engine/cfstream_endpoint.h",
         "lib/event_engine/cf_engine/cftype_unique_ref.h",
+        "lib/event_engine/cf_engine/dns_service_resolver.h",
     ],
     external_deps = ["absl/strings:str_format"],
     deps = [
@@ -2135,6 +2135,7 @@ grpc_cc_library(
         "strerror",
         "//:event_engine_base_hdrs",
         "//:gpr",
+        "//:parse_address",
         "//:ref_counted_ptr",
         "//:sockaddr_utils",
     ],

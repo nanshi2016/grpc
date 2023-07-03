@@ -15,8 +15,6 @@
 #define GRPC_SRC_CORE_LIB_EVENT_ENGINE_CF_ENGINE_DNS_SERVICE_RESOLVER_H
 #include <grpc/support/port_platform.h>
 
-#include <utility>
-
 #ifdef GPR_APPLE
 
 #include <CoreFoundation/CoreFoundation.h>
