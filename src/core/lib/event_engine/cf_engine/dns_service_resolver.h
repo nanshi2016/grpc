@@ -64,6 +64,10 @@ class DNSServiceResolverImpl
 
  private:
   std::shared_ptr<CFEventEngine> engine_;
+
+  EventEngine::DNSResolver::LookupHostnameCallback on_resolve_;
+  std::vector<EventEngine::ResolvedAddress> result_;
+  DNSServiceRef sdRef_;
 };
 
 class DNSServiceResolver : public EventEngine::DNSResolver {

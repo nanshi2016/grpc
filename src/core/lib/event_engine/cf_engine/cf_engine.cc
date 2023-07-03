@@ -54,7 +54,10 @@ struct CFEventEngine::Closure final : public EventEngine::Closure {
 CFEventEngine::CFEventEngine()
     : thread_pool_(
           MakeThreadPool(grpc_core::Clamp(gpr_cpu_num_cores(), 2u, 16u))),
-      timer_manager_(thread_pool_) {}
+      timer_manager_(thread_pool_) {
+  GRPC_EVENT_ENGINE_TRACE("==== CFEventEngine::CFEventEngine ====, this:%p",
+                          this);
+}
 
 CFEventEngine::~CFEventEngine() {
   {
@@ -158,7 +161,9 @@ bool CFEventEngine::IsWorkerThread() { grpc_core::Crash("unimplemented"); }
 
 std::unique_ptr<EventEngine::DNSResolver> CFEventEngine::GetDNSResolver(
     const DNSResolver::ResolverOptions& /* options */) {
-  grpc_core::Crash("unimplemented");
+  GRPC_EVENT_ENGINE_TRACE("==== CFEventEngine::GetDNSResolver ====, this:%p",
+                          this);
+
   return std::make_unique<DNSServiceResolver>(
       std::static_pointer_cast<CFEventEngine>(shared_from_this()));
 }
