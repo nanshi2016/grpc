@@ -241,15 +241,15 @@ grpc_objc_library(
 
 # TODO: Enable this again once @CronetFramework is working
 grpc_objc_library(
-   name = "grpc_objc_client_core_cronet_testing",
-   srcs = glob(["GRPCClient/private/GRPCCore/GRPCCoreCronet/*.mm"]),
-   hdrs = glob(["GRPCClient/private/GRPCCore/GRPCCoreCronet/*.h"]),
-   deps = [
-       ":grpc_objc_client_core_internal_testing",
-       "//:grpc_cronet_hdrs",
-       "//src/core/ext/transport/cronet:grpc_transport_cronet_client_secure",
-       "@CronetFramework",
-   ],
+    name = "grpc_objc_client_core_cronet_testing",
+    srcs = glob(["GRPCClient/private/GRPCCore/GRPCCoreCronet/*.mm"]),
+    hdrs = glob(["GRPCClient/private/GRPCCore/GRPCCoreCronet/*.h"]),
+    deps = [
+        ":grpc_objc_client_core_internal_testing",
+        "//:grpc_cronet_hdrs",
+        "//src/core/ext/transport/cronet:grpc_transport_cronet_client_secure",
+        "@CronetFramework",
+    ],
 )
 
 grpc_objc_library(
