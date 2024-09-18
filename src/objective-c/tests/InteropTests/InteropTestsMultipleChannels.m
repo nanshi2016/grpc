@@ -82,7 +82,7 @@ static const NSTimeInterval TEST_TIMEOUT = 8000;
 
   // Default stack with remote host
   GRPCMutableCallOptions *options = [[GRPCMutableCallOptions alloc] init];
-  
+
   // Local stack with no SSL
   options = [[GRPCMutableCallOptions alloc] init];
   options.transportType = GRPCTransportTypeInsecure;
