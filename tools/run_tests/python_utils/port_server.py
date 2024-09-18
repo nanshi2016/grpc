@@ -87,10 +87,7 @@ def can_bind(port, proto):
 
 def refill_pool(max_timeout, req):
     """Scan for ports not marked for being in use"""
-    chk = [
-        port
-        for port in range(1025, 32766)
-    ]
+    chk = [port for port in range(1025, 32766)]
     random.shuffle(chk)
     for i in chk:
         if len(pool) > 100:
