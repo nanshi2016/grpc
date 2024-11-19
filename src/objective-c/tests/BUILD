@@ -200,6 +200,10 @@ ios_unit_test(
 
 ios_unit_test(
     name = "InteropTests",
+    env = {
+        "HOST_PORT_LOCAL": "${HOST_PORT_LOCAL}",
+        "HOST_PORT_LOCALSSL": "${HOST_PORT_LOCALSSL}",
+    },
     minimum_os_version = "9.0",
     test_host = ":ios-host",
     deps = [
