@@ -147,7 +147,7 @@ class Channel : public RefCounted<Channel>,
 
   size_t TestOnlyRegisteredCalls() {
     MutexLock lock(&registration_table_.mu);
-    return registration_table_.map.size();
+    return static_cast<int>(registration_table_.map.size());
   }
 
   int TestOnlyRegistrationAttempts() {
