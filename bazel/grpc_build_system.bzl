@@ -247,14 +247,14 @@ def grpc_proto_plugin(name, srcs = [], deps = []):
         binary = name + "_native",
     )
     native.genrule(
-      name = name,
-      srcs = select({
-          "@platforms//os:macos": [name + "_universal"],
-          "//conditions:default": [name + "_native"],
-      }),
-      outs = [name],
-      cmd = "cp $< $@",
-      executable = True,
+        name = name,
+        srcs = select({
+            "@platforms//os:macos": [name + "_universal"],
+            "//conditions:default": [name + "_native"],
+        }),
+        outs = [name],
+        cmd = "cp $< $@",
+        executable = True,
     )
 
 def grpc_internal_proto_library(
